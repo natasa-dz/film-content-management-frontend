@@ -1,0 +1,17 @@
+<!-- src/app/get-metadata/get-metadata.component.html -->
+
+<div class="heading">Get Metadata</div>
+
+<form>
+  <div>
+    <input type="text" placeholder="Enter Film ID" [(ngModel)]="filmId" />
+  </div>
+  <div class="button-container">
+    <button (click)="onGet()">
+      <span class="icon">
+        <i class="fas fa-search"></i>
+      </span>
+      Get Metadata
+    </button>
+  </div>
+</form>

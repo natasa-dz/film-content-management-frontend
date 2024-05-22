@@ -1,0 +1,22 @@
+<!-- src/app/upload-film/upload-film.component.html -->
+
+<div class="heading">Upload Film</div>
+
+<form>
+  <div>
+    <input type="text" placeholder="Enter Film Title" [(ngModel)]="filmTitle" />
+    <textarea placeholder="Enter Film Description" [(ngModel)]="filmDescription"></textarea>
+
+  </div>
+  <div>
+    <input type="file" (change)="onFileSelected($event)" />
+  </div>
+  <div class="button-container">
+    <button (click)="onUpload()">
+      <span class="icon">
+        <i class="fas fa-cloud-upload-alt"></i>
+      </span>
+      Upload Film
+    </button>
+  </div>
+</form>
