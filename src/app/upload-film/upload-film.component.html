@@ -1,18 +1,40 @@
-<!-- src/app/upload-film/upload-film.component.html -->
-
 <div class="heading">Upload Film</div>
 
 <form>
-  <div>
-    <input type="text" placeholder="Enter Film Title" [(ngModel)]="filmTitle" />
-    <textarea placeholder="Enter Film Description" [(ngModel)]="filmDescription"></textarea>
-
-  </div>
-  <div>
-    <input type="file" (change)="onFileSelected($event)" />
-  </div>
+      <label for="title">
+        <i class="fas fa-film"></i> Title
+      </label>
+      <input type="text" id="title" placeholder="Enter Film Title" [(ngModel)]="film.title" name="title" />
+      <label for="director">
+        <i class="fas fa-video"></i> Director
+      </label>
+      <input type="text" id="director" placeholder="Enter Director" [(ngModel)]="film.director" name="director" />
+      <label for="year">
+        <i class="fas fa-calendar"></i> Year
+      </label>
+      <input type="number" id="year" placeholder="Enter Year" [(ngModel)]="film.year" name="year" class="form-control"/>
+      <label for="genre">
+        <i class="fas fa-tags"></i> Genre
+      </label>
+      <select id="genre" [(ngModel)]="film.genre" name="genre" class="form-control">
+        <option value="Action">Action</option>
+        <option value="Comedy">Comedy</option>
+        <option value="Drama">Drama</option>
+        <option value="Horror">Horror</option>
+        <option value="Sci-Fi">Sci-Fi</option>
+        <option value="Romance">Romance</option>
+        <option value="Thriller">Thriller</option>
+      </select>
+      <label for="description">
+        <i class="fas fa-info-circle"></i> Description
+      </label>
+      <textarea id="description" placeholder="Enter Film Description" [(ngModel)]="film.description" name="description"></textarea>
+      <label for="file">
+        <i class="fas fa-file-upload"></i> Upload File
+      </label>
+      <input type="file" id="file" (change)="onFileSelected($event)" />
   <div class="button-container">
-    <button (click)="onUpload()">
+    <button type="button" (click)="onUpload()">
       <span class="icon">
         <i class="fas fa-cloud-upload-alt"></i>
       </span>

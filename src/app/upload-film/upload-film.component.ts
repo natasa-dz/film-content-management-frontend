@@ -4,11 +4,18 @@ import { FilmService } from '../film.service';
 @Component({
   selector: 'app-upload-film',
   templateUrl: './upload-film.component.html',
-  styleUrl: './upload-film.component.css'
+  styleUrls: ['./upload-film.component.css']
 })
 export class UploadFilmComponent {
-  filmTitle='';
-  filmDescription='';
+  film = {
+    film_id: '',
+    title: '',
+    director: '',
+    year: '',
+    genre: undefined,
+    description: undefined,
+    //TODO: ACTORS FIELD!!!
+  };
   selectedFile: File | null = null;
 
   constructor(private filmService: FilmService) {}
@@ -19,13 +26,13 @@ export class UploadFilmComponent {
 
   onUpload() {
     if (this.selectedFile) {
-      this.filmService.uploadFilm(this.selectedFile).subscribe(
+      this.filmService.uploadFilm(this.film, this.selectedFile).subscribe(
         response => {
-          alert('File uploaded successfully!');
+          alert('Film uploaded successfully!');
         },
         error => {
           console.error(error);
-          alert('Error uploading file.');
+          alert('Error uploading film.');
         }
       );
     } else {

@@ -10,6 +10,7 @@
   },
   "private": true,
   "dependencies": {
+    "@angular-builders/custom-webpack": "^17.0.2",
     "@angular/animations": "^17.3.0",
     "@angular/common": "^17.3.0",
     "@angular/compiler": "^17.3.0",
@@ -19,7 +20,12 @@
     "@angular/platform-browser-dynamic": "^17.3.0",
     "@angular/router": "^17.3.0",
     "@fortawesome/fontawesome-free": "^6.5.2",
+    "assert": "^2.1.0",
+    "browserify-zlib": "^0.2.0",
+    "crypto-browserify": "^3.12.0",
+    "node-polyfill-webpack-plugin": "^4.0.0",
     "rxjs": "~7.8.0",
+    "stream-browserify": "^3.0.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.3"
   },
@@ -28,12 +34,16 @@
     "@angular/cli": "^17.3.7",
     "@angular/compiler-cli": "^17.3.0",
     "@types/jasmine": "~5.1.0",
+    "https-browserify": "^1.0.0",
     "jasmine-core": "~5.1.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.2.0",
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
-    "typescript": "~5.4.2"
+    "os-browserify": "^0.3.0",
+    "stream-http": "^3.2.0",
+    "typescript": "~5.4.2",
+    "url": "^0.11.3"
   }
 }
