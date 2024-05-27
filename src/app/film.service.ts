@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {from, Observable} from 'rxjs';
 
 import {environment} from "../../environment";
@@ -10,34 +10,52 @@ import {environment} from "../../environment";
 export class FilmService {
   private apiUrl = environment.apiUrl;
 
-  private bucketName = 'YOUR_BUCKET_NAME';
-  private region = 'YOUR_BUCKET_REGION';
-  private accessKeyId = 'YOUR_ACCESS_KEY_ID';
-  private secretAccessKey = 'YOUR_SECRET_ACCESS_KEY';
-
   constructor(private http: HttpClient) {
 
   }
+//, base64File: string
+  uploadFilm(film: any, base64File:string): Observable<any> {
 
-  uploadFilm(film: any, file: File): Observable<any> {
-    const formData = new FormData();
-    formData.append('film_id', film.film_id);
-    formData.append('title', film.title);
-    formData.append('director', film.director);
-    formData.append('year', film.year.toString());
-    formData.append('genre', film.genre);
-    formData.append('description', film.description);
-    formData.append('file', file);
+    const body = {
+      film_id: film.film_id,
+      title: film.title,
+      director: film.director,
+      year: film.year,
+      genre: film.genre,
+      description: film.description,
+      file: base64File
+    };
 
-    return this.http.post(`${this.apiUrl}/films`, formData);
+    console.log("Form data being sent:", body);  // Log form data for debugging
+
+    return this.http.post(`${this.apiUrl}/films`, body, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
   }
 
   updateMetadata(filmId: string, metadata: any): Observable<any> {
     return this.http.patch(`${this.apiUrl}/films/${filmId}`, { metadata });
   }
 
-  getMetadata(filmId: string): Observable<any> {
-    return this.http.get(`${this.apiUrl}/films/${filmId}`);
+  getMetadata(filmId?: string): Observable<any> {
+    const url = filmId ? `${this.apiUrl}/films/${filmId}` : `${this.apiUrl}/films`;
+    return this.http.get(url);
+  }
+
+  downloadFilm(filmId: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/download`, {
+      params: { film_id: filmId }
+    });
+  }
+
+  getFilms(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/films`);
+  }
+
+  getFilmById(film_id: string): Observable<any> {
+    return this.http.get(`${this.apiUrl}/films?film_id=${film_id}`);
   }
 
 }

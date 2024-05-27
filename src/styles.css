@@ -208,3 +208,37 @@ textarea.form-control {
   transform: translateY(0px);
 }
 
+
+/* src/app/components/film-list/film-list.component.css */
+.film-item {
+  background-color: #fff;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.film-item h2 {
+  margin-bottom: 10px;
+}
+
+.film-item p {
+  margin: 5px 0;
+}
+
+.film-item a {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 10px 15px;
+  background-color: #e11a5f;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+.film-item a:hover {
+  background-color: #cb698c;
+}
+
+

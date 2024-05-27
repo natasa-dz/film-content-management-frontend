@@ -1,17 +1,11 @@
 <!-- src/app/get-metadata/get-metadata.component.html -->
 
-<div class="heading">Get Metadata</div>
+<!-- src/app/components/film-list/film-list.component.html -->
+<div *ngFor="let film of films" class="film-item">
+  <h2>{{ film.title }}</h2>
+  <p>Director: {{ film.director }}</p>
+  <p>Year: {{ film.year }}</p>
+  <p>Description: {{ film.description }}</p>
+  <button (click)="onDownload(film.film_id)">Download</button>
+</div>
 
-<form>
-  <div>
-    <input type="text" placeholder="Enter Film ID" [(ngModel)]="filmId" />
-  </div>
-  <div class="button-container">
-    <button (click)="onGet()">
-      <span class="icon">
-        <i class="fas fa-search"></i>
-      </span>
-      Get Metadata
-    </button>
-  </div>
-</form>
