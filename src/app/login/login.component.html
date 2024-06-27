@@ -1,0 +1,36 @@
+<div class="registration-form">
+  <div class="heading">Login</div>
+  <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
+    <div>
+      <label for="username">
+        <i class="fas fa-user"></i>
+        Username
+      </label>
+      <div class="input-group">
+        <input type="text" id="username" name="username" class="form-control" required [(ngModel)]="user.username">
+
+      </div>
+    </div>
+
+    <div>
+      <label for="password">
+        <i class="fas fa-lock"></i>
+        Password
+      </label>
+      <div class="input-group">
+        <input type="password" id="password" name="password" class="form-control" required [(ngModel)]="user.password">
+
+      </div>
+    </div>
+
+    <div class="button-container">
+
+    <button type="submit"  [disabled]="!loginForm.valid">
+      <span class="icon">
+        <i class="fas fa-sign-in-alt"></i>
+      </span>
+      Login
+    </button>
+    </div>
+  </form>
+</div>

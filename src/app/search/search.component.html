@@ -1,0 +1,33 @@
+<div class="heading">Search Films</div>
+
+<form (submit)="onSearch()">
+  <label for="title">Title:</label>
+  <input type="text" id="title" [(ngModel)]="searchCriteria.title" name="title" />
+
+  <label for="description">Description:</label>
+  <input type="text" id="description" [(ngModel)]="searchCriteria.description" name="description" />
+
+  <label for="actors">Actors:</label>
+  <input type="text" id="actors" [(ngModel)]="searchCriteria.actors" name="actors" />
+
+  <label for="director">Director:</label>
+  <input type="text" id="director" [(ngModel)]="searchCriteria.director" name="director" />
+
+  <label for="genre">Genre:</label>
+  <input type="text" id="genre" [(ngModel)]="searchCriteria.genre" name="genre" />
+
+  <button type="submit">Search</button>
+</form>
+
+<div *ngIf="searchResults.length > 0">
+  <h3>Search Results</h3>
+  <ul>
+    <li *ngFor="let film of searchResults">
+      <h4>{{ film.title }}</h4>
+      <p>{{ film.description }}</p>
+      <p><strong>Actors:</strong> {{ film.actors }}</p>
+      <p><strong>Director:</strong> {{ film.director }}</p>
+      <p><strong>Genre:</strong> {{ film.genre }}</p>
+    </li>
+  </ul>
+</div>
