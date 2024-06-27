@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FilmService } from '../film.service';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-get-metadata',
@@ -9,9 +10,13 @@ import { FilmService } from '../film.service';
 export class GetMetadataComponent implements OnInit {
   films: any[] = [];
 
-  constructor(private filmService: FilmService) {}
+  constructor(private filmService: FilmService, private router:Router) {}
 
   ngOnInit(): void {
+    this.loadFilms();
+  }
+
+  loadFilms(){
     this.filmService.getFilms().subscribe(data => {
       this.films = data;
     });
@@ -25,7 +30,7 @@ export class GetMetadataComponent implements OnInit {
         const downloadUrl = window.URL.createObjectURL(fileBlob);
         const a = document.createElement('a');
         a.href = downloadUrl;
-        a.download = `${filmId}. mp4`; // Adjust the file extension as needed
+        a.download = `${filmId}.mp4`; // Adjust the file extension as needed
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
@@ -50,5 +55,26 @@ export class GetMetadataComponent implements OnInit {
       byteArrays.push(byteArray);
     }
     return new Blob(byteArrays, { type: contentType });
+  }
+
+  onDelete(film_id: string){
+    console.log("FILM ID: ", film_id.toString())
+    this.filmService.deleteFilmById(film_id).subscribe(
+      (response) => {
+        if (response) {
+          console.log('Film deleted successfully:', response);
+          this.loadFilms()
+        } else {
+          console.error('Empty response received');
+        }
+      },
+      (error) => {
+        console.error('Error deleting film:', error);
+      }
+    );}
+
+  onUpdate(film_id: any) {
+    console.log("Usao u update")
+    this.router.navigate(['/update', film_id]);
   }
 }

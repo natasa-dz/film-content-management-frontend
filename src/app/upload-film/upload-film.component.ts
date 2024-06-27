@@ -15,6 +15,7 @@ export class UploadFilmComponent {
     year: '',
     genre: '',
     description: '',
+    actors: ''
   };
   selectedFile: File | null = null;
 

@@ -5,15 +5,22 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
-import { UpdateMetadataComponent } from './update-metadata/update-metadata.component';
+import { UpdateMetadataComponent } from './update-film/update-metadata.component';
 import {UploadFilmComponent} from "./upload-film/upload-film.component";
 import {GetMetadataComponent} from "./get-metadata/get-metadata.component";
+import {RegistrationComponent} from "./register/register.component";
+import {LoginComponent} from "./login/login.component";
+import {SearchComponent} from "./search/search.component";
 
 const routes: Routes = [
-  { path: 'update-metadata', component: UpdateMetadataComponent },
+  { path: 'update/:film_id', component: UpdateMetadataComponent },
   { path: 'upload-film', component: UploadFilmComponent },
   { path: 'get-metadata', component: GetMetadataComponent },
-  // { path: '', redirectTo: '/update-metadata', pathMatch: 'full' }
+  { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegistrationComponent },
+  { path: 'search', component: SearchComponent},
+
+  // { path: '', redirectTo: '/update-film', pathMatch: 'full' }
 ];
 
 @NgModule({
