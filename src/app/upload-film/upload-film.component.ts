@@ -34,6 +34,7 @@ export class UploadFilmComponent {
 
         console.log("FileBase64: ", fileBase64)
         // Upload film data directly to the backend
+        console.log('FILM KOJI SE SALJE :', this.film)
         this.filmService.uploadFilm(this.film, fileBase64).subscribe(
           response => {
             alert('Film uploaded successfully!');

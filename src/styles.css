@@ -93,13 +93,13 @@ input[type="text"]:focus, textarea:focus {
 button {
   background-color: #e11a5f;
   color: #ffffff;
-  padding: 18px 36px;
+  padding: 15px 40px;
   border: none;
   border-radius: 10px;
   cursor: pointer;
-  font-size: 20px;
+  font-size: 18px;
   transition: background-color 0.3s, transform 0.3s;
-  margin: 25px;
+  margin: 15px;
 }
 
 button:hover {

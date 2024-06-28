@@ -23,11 +23,15 @@
   <h3>Search Results</h3>
   <ul>
     <li *ngFor="let film of searchResults">
-      <h4>{{ film.title }}</h4>
-      <p>{{ film.description }}</p>
+      <p><strong>Title:</strong> {{ film.title }}</p>
+      <p><strong>Description</strong>: {{ film.description }}</p>
       <p><strong>Actors:</strong> {{ film.actors }}</p>
       <p><strong>Director:</strong> {{ film.director }}</p>
-      <p><strong>Genre:</strong> {{ film.genre }}</p>
+      <p><strong>Year:</strong> {{ film.year }}</p>
     </li>
   </ul>
+</div>
+
+<div *ngIf="searchResults.length === 0">
+  <p>No results found.</p>
 </div>

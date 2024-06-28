@@ -77,4 +77,12 @@ export class GetMetadataComponent implements OnInit {
     console.log("Usao u update")
     this.router.navigate(['/update', film_id]);
   }
+
+  onReviewSubmit(film_id: any) {
+    console.log("Usao u submit review button! ")
+    this.router.navigate(['/submit-review', film_id]);
+
+
+
+  }
 }

@@ -11,14 +11,20 @@ import {GetMetadataComponent} from "./get-metadata/get-metadata.component";
 import {RegistrationComponent} from "./register/register.component";
 import {LoginComponent} from "./login/login.component";
 import {SearchComponent} from "./search/search.component";
+import {SubmitReviewComponent} from "./submit-review/submit-review.component";
+import {DisplayReviewsComponent} from "./display-reviews/display-reviews.component";
 
 const routes: Routes = [
   { path: 'update/:film_id', component: UpdateMetadataComponent },
+  { path: 'submit-review/:film_id', component: SubmitReviewComponent },
   { path: 'upload-film', component: UploadFilmComponent },
   { path: 'get-metadata', component: GetMetadataComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegistrationComponent },
   { path: 'search', component: SearchComponent},
+  { path: 'display-reviews', component: DisplayReviewsComponent},
+
+
 
   // { path: '', redirectTo: '/update-film', pathMatch: 'full' }
 ];

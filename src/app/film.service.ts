@@ -20,6 +20,7 @@ export class FilmService {
       film_id: film.film_id,
       title: film.title,
       director: film.director,
+      actors:film.actors,
       year: film.year,
       genre: film.genre,
       description: film.description,
