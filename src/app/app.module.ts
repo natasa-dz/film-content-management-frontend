@@ -13,6 +13,7 @@ import {LoginComponent} from "./login/login.component";
 import {SearchComponent} from "./search/search.component";
 import {SubmitReviewComponent} from "./submit-review/submit-review.component";
 import {DisplayReviewsComponent} from "./display-reviews/display-reviews.component";
+import {ConfirmSignupComponent} from "./confirm-signup/confirm-signup.component";
 
 const routes: Routes = [
   { path: 'update/:film_id', component: UpdateMetadataComponent },
@@ -23,6 +24,8 @@ const routes: Routes = [
   { path: 'register', component: RegistrationComponent },
   { path: 'search', component: SearchComponent},
   { path: 'display-reviews', component: DisplayReviewsComponent},
+  { path: 'confirm', component: ConfirmSignupComponent},
+
 
 
 

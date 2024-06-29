@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import {FormsModule} from "@angular/forms";
-import {AuthService} from "../auth.service";
+import { Router } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-login',
@@ -9,7 +10,7 @@ import {AuthService} from "../auth.service";
     FormsModule
   ],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+  styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
   user = {
@@ -17,14 +18,13 @@ export class LoginComponent {
     password: ''
   };
 
-  // private userService: UserService ---> parametar konstruktora
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   onSubmit() {
     this.authService.login(this.user).subscribe(
       response => {
         console.log('Login successful:', response);
-        alert('Login successful!');
+        this.getUserRoleAndRedirect(this.user.username);
       },
       error => {
         console.error('Error during login:', error);
@@ -33,4 +33,26 @@ export class LoginComponent {
     );
   }
 
+  private getUserRoleAndRedirect(username: string) {
+    this.authService.getUserRole(username).subscribe(
+      (roleResponse:any)=> {
+        const role=roleResponse.role
+        console.log("USER ROLE: ", role)
+        if (role.toLowerCase()===('admin')) {
+          console.log("USER JE ADMIN")
+          // this.router.navigate(['/admin-main']);
+        } else if (role.toLowerCase()===('user')) {
+          console.log("USER JE GOST")
+          // this.router.navigate(['/user-main']);
+        } else {
+          console.error('Unknown role:', role);
+          alert('Unknown role!');
+        }
+      },
+      error => {
+        console.error('Error fetching user role:', error);
+        alert('Error fetching user role: ' + error.error.error);
+      }
+    );
+  }
 }

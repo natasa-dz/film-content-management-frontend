@@ -33,3 +33,11 @@ h2 {
   font-size: 24px;
   margin-bottom: 15px;
 }
+
+/* Additional styles for options */
+.select-option {
+  width: calc(100% - 20px); /* Adjust width based on parent width */
+  padding: 6px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}

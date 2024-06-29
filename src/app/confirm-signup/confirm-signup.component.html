@@ -1,0 +1,8 @@
+<div>
+  <h2>Confirm Signup</h2>
+  <form (submit)="confirmSignUp()">
+    <label for="code">Confirmation Code:</label>
+    <input id="code" [(ngModel)]="code" name="code" required>
+    <button type="submit">Confirm</button>
+  </form>
+</div>

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import {FormsModule} from "@angular/forms";
 import {AuthService} from "../auth.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-register',
@@ -18,17 +19,20 @@ export class RegistrationComponent {
     dateOfBirth: '',
     username: '',
     email: '',
-    password: ''
+    password: '',
+    role: 'User'
   };
 
   // private userService: UserService ---> parametar konstruktora
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   onSubmit() {
+    console.log("User before registration: ", this.user)
     this.authService.register(this.user).subscribe(
       response => {
-        console.log('Registration successful:', response);
-        alert('Registration successful! Please check your email for verification.');
+        alert('Registration successful!');
+        // this.router.navigate(['/confirm'], { queryParams: { username: this.user.username } });
+
       },
       error => {
         console.error('Error during registration:', error);

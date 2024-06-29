@@ -1,71 +1,77 @@
-  <div class="heading">Register</div>
-  <form (ngSubmit)="onSubmit()" #registrationForm="ngForm">
-      <label for="firstName">
-        <i class="fas fa-user"></i>
-        First Name
-      </label>
-      <div class="input-group">
-        <input type="text" id="firstName" name="firstName" class="form-control" required [(ngModel)]="user.firstName">
-        <span class="input-group-text">
-        </span>
-      </div>
+<div class="heading">Register</div>
+<form (ngSubmit)="onSubmit()" #registrationForm="ngForm">
+  <label for="firstName">
+    <i class="fas fa-user"></i>
+    First Name
+  </label>
+  <div class="input-group">
+    <input type="text" id="firstName" name="firstName" class="form-control" required [(ngModel)]="user.firstName">
+    <span class="input-group-text"></span>
+  </div>
 
-      <label for="lastName">
-        <i class="fas fa-user"></i>
-        Last Name</label>
-      <div class="input-group">
-        <input type="text" id="lastName" name="lastName" class="form-control" required [(ngModel)]="user.lastName">
-        <span class="input-group-text">
-        </span>
-      </div>
+  <label for="lastName">
+    <i class="fas fa-user"></i>
+    Last Name
+  </label>
+  <div class="input-group">
+    <input type="text" id="lastName" name="lastName" class="form-control" required [(ngModel)]="user.lastName">
+    <span class="input-group-text"></span>
+  </div>
 
-      <label for="dob">
-        <i class="fas fa-calendar-alt"></i>
-        Date of Birth</label>
-      <div class="input-group">
-        <input type="date" id="dob" name="dob" class="form-control" required [(ngModel)]="user.dateOfBirth">
-        <span class="input-group-text">
-        </span>
-      </div>
+  <label for="dob">
+    <i class="fas fa-calendar-alt"></i>
+    Date of Birth
+  </label>
+  <div class="input-group">
+    <input type="date" id="dob" name="dob" class="form-control" required [(ngModel)]="user.dateOfBirth">
+    <span class="input-group-text"></span>
+  </div>
 
-      <label for="username">
-        <i class="fas fa-user-circle"></i>
-        Username
-      </label>
+  <label for="username">
+    <i class="fas fa-user-circle"></i>
+    Username
+  </label>
+  <div class="input-group">
+    <input type="text" id="username" name="username" class="form-control" required [(ngModel)]="user.username">
+    <span class="input-group-text"></span>
+  </div>
 
-      <div class="input-group">
-        <input type="text" id="username" name="username" class="form-control" required [(ngModel)]="user.username">
-        <span class="input-group-text">
-        </span>
-      </div>
+  <label for="email">
+    <i class="fas fa-envelope"></i>
+    Email
+  </label>
+  <div class="input-group">
+    <input type="email" id="email" name="email" class="form-control" required [(ngModel)]="user.email">
+    <span class="input-group-text"></span>
+  </div>
 
-      <label for="email">
-        <i class="fas fa-envelope"></i>
-        Email
-      </label>
-      <div class="input-group">
-        <input type="email" id="email" name="email" class="form-control" required [(ngModel)]="user.email">
-        <span class="input-group-text">
-        </span>
-      </div>
+  <label for="password">
+    <i class="fas fa-lock"></i>
+    Password
+  </label>
+  <div class="input-group">
+    <input type="password" id="password" name="password" class="form-control" required [(ngModel)]="user.password">
+    <span class="input-group-text"></span>
+  </div>
 
-      <label for="password">
-        <i class="fas fa-lock"></i>
-        Password
-      </label>
-      <div class="input-group">
-        <input type="password" id="password" name="password" class="form-control" required [(ngModel)]="user.password">
-        <span class="input-group-text">
-        </span>
-      </div>
-    <div class="button-container">
+  <label for="role">
+    <i class="fas fa-user-tag"></i>
+    Role
+  </label>
+  <div class="input-group">
+    <select id="role" name="role" class="form-control" required [(ngModel)]="user.role">
+      <option value="User">User</option>
+      <option value="Admin">Admin</option>
+    </select>
+    <span class="input-group-text"></span>
+  </div>
 
-    <button type="submit"[disabled]="!registrationForm.valid">
+  <div class="button-container">
+    <button type="submit" [disabled]="!registrationForm.valid">
       <span class="icon">
         <i class="fas fa-user-plus"></i>
       </span>
       Register
     </button>
-    </div>
-
-  </form>
+  </div>
+</form>
