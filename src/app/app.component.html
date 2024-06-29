@@ -2,18 +2,17 @@
 <!-- RUTE SU TI U app.module.ts -->
 
 <header>
-  <h1>Film Content Management</h1>
+  <h1>Film Content Management App</h1>
   <nav>
     <a routerLink="/register">Register</a>
     <a routerLink="/login">Login</a>
-    <a routerLink="/upload-film">Upload Film</a>
-    <a routerLink="/get-metadata">Get Film</a>
-    <a routerLink="/search">Search</a>
-    <a routerLink="/display-reviews">Display reviews</a>
-
-
   </nav>
 </header>
+
+  <app-admin-nav *ngIf="userRole === 'admin'"></app-admin-nav>
+  <app-user-nav *ngIf="userRole === 'user'"></app-user-nav>
+
+
 
 <main>
   <router-outlet></router-outlet>

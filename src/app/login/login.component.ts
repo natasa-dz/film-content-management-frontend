@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../auth.service';
+import {UserService} from "../user.service";
 
 @Component({
   selector: 'app-login',
@@ -18,12 +19,15 @@ export class LoginComponent {
     password: ''
   };
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private userService:UserService, private authService: AuthService, private router: Router) {}
 
   onSubmit() {
     this.authService.login(this.user).subscribe(
       response => {
+        console.log("User", this.user)
         console.log('Login successful:', response);
+        this.userService.setUsername(this.user.username); // Set username globally
+        // this.userService.setRole(response.role);
         this.getUserRoleAndRedirect(this.user.username);
       },
       error => {
@@ -37,15 +41,11 @@ export class LoginComponent {
     this.authService.getUserRole(username).subscribe(
       (roleResponse:any)=> {
         const role=roleResponse.role
-        console.log("USER ROLE: ", role)
         if (role.toLowerCase()===('admin')) {
-          console.log("USER JE ADMIN")
-          // this.router.navigate(['/admin-main']);
+          this.router.navigate(['/admin-main']);
         } else if (role.toLowerCase()===('user')) {
-          console.log("USER JE GOST")
-          // this.router.navigate(['/user-main']);
+          this.router.navigate(['/user-main']);
         } else {
-          console.error('Unknown role:', role);
           alert('Unknown role!');
         }
       },

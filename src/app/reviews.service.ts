@@ -11,8 +11,8 @@ export class ReviewService {
 
   constructor(private http: HttpClient) {}
 
-  submitReview(filmId: string, userId: string, rating: number, comment: string, ratingType: string): Observable<any> {
-    const payload = { userId, rating, comment, ratingType };
+  submitReview(filmId: string | null, userId: string, rating: number, comment: string, ratingType: string): Observable<any> {
+    const payload = { film_id:filmId,user_id:userId, rating, comment, rating_type:ratingType };
     return this.http.post(`${this.apiUrl}/films/${filmId}/reviews`, payload);
   }
 

@@ -14,6 +14,8 @@ import {SearchComponent} from "./search/search.component";
 import {SubmitReviewComponent} from "./submit-review/submit-review.component";
 import {DisplayReviewsComponent} from "./display-reviews/display-reviews.component";
 import {ConfirmSignupComponent} from "./confirm-signup/confirm-signup.component";
+import {UserNavComponent} from "./user-nav/user-nav.component";
+import {AdminNavComponent} from "./admin-nav/admin-nav.component";
 
 const routes: Routes = [
   { path: 'update/:film_id', component: UpdateMetadataComponent },
@@ -25,6 +27,9 @@ const routes: Routes = [
   { path: 'search', component: SearchComponent},
   { path: 'display-reviews', component: DisplayReviewsComponent},
   { path: 'confirm', component: ConfirmSignupComponent},
+  { path: 'admin-main', component: AdminNavComponent},
+  { path: 'user-main', component: UserNavComponent},
+
 
 
 
@@ -44,7 +49,9 @@ const routes: Routes = [
     FormsModule,
     HttpClientModule,
     RouterOutlet,
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(routes),
+    UserNavComponent,
+    AdminNavComponent
   ],
   providers: [],
   bootstrap: [AppComponent]

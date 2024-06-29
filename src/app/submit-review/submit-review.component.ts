@@ -1,29 +1,42 @@
 import { Component } from '@angular/core';
 import {ReviewService} from "../reviews.service";
 import {FormsModule} from "@angular/forms";
+import {ActivatedRoute} from "@angular/router";
+import { CommonModule } from '@angular/common';
+
 
 @Component({
   selector: 'app-submit-review',
   standalone: true,
   imports: [
-    FormsModule
+    FormsModule,
+    CommonModule
   ],
   templateUrl: './submit-review.component.html',
   styleUrl: './submit-review.component.css'
 })
 export class SubmitReviewComponent {
 
-  //TODO: NAMESTI DA SE FILM ID I USER ID PROSLEDJUJU!!!!
-  filmId: string = '';
-  userId: string = '';
+  filmId: string | null = '';
+  username: string = '';
   rating: number = 1;
   comment: string = '';
   ratingType: string = 'numeric'; // 'numeric', 'like', 'thumbsup'
 
-  constructor(private reviewService: ReviewService) {}
+  constructor(private reviewService: ReviewService, private route:ActivatedRoute) {}
+
+  ngOnInit(): void {
+    this.filmId = this.route.snapshot.paramMap.get('film_id');
+    this.route.queryParams.subscribe(params => {
+      console.log(params['username'])
+      this.username = params['username'];
+    });
+  }
 
   submitReview(): void {
-    this.reviewService.submitReview(this.filmId, this.userId, this.rating, this.comment, this.ratingType)
+    console.log("FILM ID: ", this.filmId)
+    console.log("USERNAME: ", this.username)
+    this.reviewService.submitReview(this.filmId, this.username, this.rating, this.comment, this.ratingType)
       .subscribe(
         response => {
           console.log('Review submitted:', response);

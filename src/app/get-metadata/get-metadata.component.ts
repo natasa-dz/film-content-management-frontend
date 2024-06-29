@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FilmService } from '../film.service';
 import {Router} from "@angular/router";
+import {AuthService} from "../auth.service";
+import {UserService} from "../user.service";
 
 @Component({
   selector: 'app-get-metadata',
@@ -9,11 +11,29 @@ import {Router} from "@angular/router";
 })
 export class GetMetadataComponent implements OnInit {
   films: any[] = [];
+  userRole: string | null = null; // Holds the user's role
+  username?:string | null;
 
-  constructor(private filmService: FilmService, private router:Router) {}
+  constructor(private userService: UserService,private filmService: FilmService, private router:Router, private authService: AuthService) {}
 
   ngOnInit(): void {
     this.loadFilms();
+    // this.fetchUserRole();
+    this.username=this.userService.getUsername();
+    console.log("USERNAME: ", this.username)
+  }
+
+  fetchUserRole() {
+    // @ts-ignore
+    this.authService.getUserRole(this.username).subscribe(
+      (role: string) => {
+        this.userRole = role; // Assuming role is a string ('admin' or 'user')
+      },
+      error => {
+        console.error('Error fetching user role:', error);
+        // Handle error
+      }
+    );
   }
 
   loadFilms(){
@@ -79,10 +99,12 @@ export class GetMetadataComponent implements OnInit {
   }
 
   onReviewSubmit(film_id: any) {
-    console.log("Usao u submit review button! ")
-    this.router.navigate(['/submit-review', film_id]);
+    console.log("Username: ", this.username)
+    const username=this.username
+    this.router.navigate(['/submit-review', film_id], { queryParams: { username } });
+  }
 
-
-
+  isAdmin(): boolean {
+    return this.userRole === 'admin';
   }
 }
