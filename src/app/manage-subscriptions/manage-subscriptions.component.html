@@ -1,0 +1,10 @@
+<!-- src/app/subscription-management/subscription-management.component.html -->
+
+<div class="subscription-management-container">
+  <h2>Your Subscriptions</h2>
+  <div *ngFor="let subscription of subscriptions" class="subscription-item">
+    <p> Type: {{ subscription.subscription_type }}</p>
+    <p>Value: {{ subscription.subscription_value }}</p>
+    <button (click)="deleteSubscription(subscription.subscription_type, subscription.subscription_value)">Delete</button>
+  </div>
+</div>

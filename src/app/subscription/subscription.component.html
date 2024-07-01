@@ -1,0 +1,19 @@
+<!-- subscription.component.html -->
+<div class="subscription-container">
+  <h2>Subscribe to Content</h2>
+  <form (ngSubmit)="onSubscribe()">
+    <div class="form-group">
+      <label for="subscriptionType">Subscription Type:</label>
+      <select id="subscriptionType" [(ngModel)]="subscription.type" name="subscriptionType" required>
+        <option value="actor">Actor</option>
+        <option value="director">Director</option>
+        <option value="genre">Genre</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="subscriptionValue">Subscription Value:</label>
+      <input id="subscriptionValue" type="text" [(ngModel)]="subscription.value" name="subscriptionValue" required>
+    </div>
+    <button type="submit">Subscribe</button>
+  </form>
+</div>
