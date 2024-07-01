@@ -41,11 +41,15 @@ export class FilmService {
     return this.http.get(url);
   }
 
-  downloadFilm(filmId: string): Observable<any> {
+  downloadFilm(filmId: string, userId: string): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/download`, {
-      params: { film_id: filmId }
+      params: {
+        film_id: filmId,
+        user_id: userId
+      }
     });
   }
+
 
   getFilms(): Observable<any> {
     return this.http.get(`${this.apiUrl}/films`);

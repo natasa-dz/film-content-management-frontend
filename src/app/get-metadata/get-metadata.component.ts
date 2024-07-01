@@ -12,29 +12,13 @@ import {UserService} from "../user.service";
 export class GetMetadataComponent implements OnInit {
   films: any[] = [];
   userRole: string | null = null; // Holds the user's role
-  username?:string | null;
 
   constructor(private userService: UserService,private filmService: FilmService, private router:Router, private authService: AuthService) {}
 
   ngOnInit(): void {
     this.loadFilms();
-    // this.fetchUserRole();
-    this.username=this.userService.getUsername();
-    console.log("USERNAME: ", this.username)
   }
 
-  fetchUserRole() {
-    // @ts-ignore
-    this.authService.getUserRole(this.username).subscribe(
-      (role: string) => {
-        this.userRole = role; // Assuming role is a string ('admin' or 'user')
-      },
-      error => {
-        console.error('Error fetching user role:', error);
-        // Handle error
-      }
-    );
-  }
 
   loadFilms(){
     this.filmService.getFilms().subscribe(data => {
@@ -42,8 +26,25 @@ export class GetMetadataComponent implements OnInit {
     });
   }
 
-  onDownload(filmId: string): void {
-    this.filmService.downloadFilm(filmId).subscribe(
+  onDownload(filmId: string, resolution: string): void {
+
+    let fileKey: string;
+
+    switch (resolution) {
+      case '360p':
+        fileKey = `${filmId}_360p.mp4`;
+        break;
+      case '720p':
+        fileKey = `${filmId}_720p.mp4`;
+        break;
+      case '1080p':
+        fileKey = `${filmId}_1080p.mp4`;
+        break;
+      default:
+        fileKey = `${filmId}.mp4`;
+    }
+
+    this.filmService.downloadFilm(fileKey, this.userService.getUsername()!).subscribe(
       data => {
         const fileBase64 = data.file;
         const fileBlob = this.base64ToBlob(fileBase64, 'application/octet-stream');
@@ -99,8 +100,8 @@ export class GetMetadataComponent implements OnInit {
   }
 
   onReviewSubmit(film_id: any) {
-    console.log("Username: ", this.username)
-    const username=this.username
+    console.log("Username: ", this.userService.getUsername()!)
+    const username=this.userService.getUsername()!
     this.router.navigate(['/submit-review', film_id], { queryParams: { username } });
   }
 

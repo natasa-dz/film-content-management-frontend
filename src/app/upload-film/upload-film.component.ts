@@ -15,8 +15,10 @@ export class UploadFilmComponent {
     year: '',
     genre: '',
     description: '',
-    actors: ''
+    actors: [] as string[],
   };
+  actorsString=''  // Temporary string to hold actors input
+
   selectedFile: File | null = null;
 
   constructor(private filmService: FilmService) {}
@@ -32,9 +34,7 @@ export class UploadFilmComponent {
       try {
         const fileBase64 = await this.convertFileToBase64(this.selectedFile);
 
-        console.log("FileBase64: ", fileBase64)
-        // Upload film data directly to the backend
-        console.log('FILM KOJI SE SALJE :', this.film)
+        this.film.actors = this.actorsString.split(',').map(actor => actor.trim());
         this.filmService.uploadFilm(this.film, fileBase64).subscribe(
           response => {
             alert('Film uploaded successfully!');

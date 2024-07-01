@@ -16,6 +16,9 @@ import {DisplayReviewsComponent} from "./display-reviews/display-reviews.compone
 import {ConfirmSignupComponent} from "./confirm-signup/confirm-signup.component";
 import {UserNavComponent} from "./user-nav/user-nav.component";
 import {AdminNavComponent} from "./admin-nav/admin-nav.component";
+import {SubscriptionComponent} from "./subscription/subscription.component";
+import {ManageSubscriptionsComponent} from "./manage-subscriptions/manage-subscriptions.component";
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 const routes: Routes = [
   { path: 'update/:film_id', component: UpdateMetadataComponent },
@@ -29,6 +32,11 @@ const routes: Routes = [
   { path: 'confirm', component: ConfirmSignupComponent},
   { path: 'admin-main', component: AdminNavComponent},
   { path: 'user-main', component: UserNavComponent},
+  { path: 'subscribe', component: SubscriptionComponent },
+  { path: 'manage-subscriptions', component: ManageSubscriptionsComponent },
+
+
+
 
 
 
@@ -53,7 +61,9 @@ const routes: Routes = [
     UserNavComponent,
     AdminNavComponent
   ],
-  providers: [],
+  providers: [
+    provideAnimationsAsync()
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

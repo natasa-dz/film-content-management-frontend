@@ -27,7 +27,6 @@ export class LoginComponent {
         console.log("User", this.user)
         console.log('Login successful:', response);
         this.userService.setUsername(this.user.username); // Set username globally
-        // this.userService.setRole(response.role);
         this.getUserRoleAndRedirect(this.user.username);
       },
       error => {
