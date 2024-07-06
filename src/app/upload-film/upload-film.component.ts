@@ -17,11 +17,12 @@ export class UploadFilmComponent {
     description: '',
     actors: [] as string[],
   };
-  actorsString=''  // Temporary string to hold actors input
+  actorsString = ''  // Temporary string to hold actors input
 
   selectedFile: File | null = null;
 
-  constructor(private filmService: FilmService) {}
+  constructor(private filmService: FilmService) {
+  }
 
   onFileSelected(event: any) {
     this.selectedFile = event.target.files[0];
@@ -38,6 +39,9 @@ export class UploadFilmComponent {
         this.filmService.uploadFilm(this.film, fileBase64).subscribe(
           response => {
             alert('Film uploaded successfully!');
+
+            // TODO:Call the transcoding function after successful upload
+            //this.transcodeFilm(this.film.film_id, fileBase64);
           },
           error => {
             console.error(error);
@@ -65,4 +69,25 @@ export class UploadFilmComponent {
       reader.onerror = error => reject(error);
     });
   }
+
+  private transcodeFilm(filmId: string, fileName: string) {
+    const resolutions = ['720p', '1080p', '360p'];  // Define your desired resolutions
+
+    const event = {
+      film_id:this.film.film_id,
+      resolutions: resolutions
+    };
+
+    console.log("EVENT KOJI SE SALJE: ", event)
+
+    this.filmService.transcodeFilm(event).subscribe(
+      response => {
+        console.log('Transcoding process initiated.');
+      },
+      error => {
+        console.error('Error initiating transcoding process.');
+      }
+    );
+  }
+
 }

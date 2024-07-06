@@ -50,6 +50,15 @@ export class FilmService {
     });
   }
 
+  transcodeFilm(event: {film_id:string, resolutions: string[] }) {
+    return this.http.post(`${this.apiUrl}/films/transcode`, event, {
+      headers: {
+        'Content-Type': 'application/json'
+      }});
+  }
+
+
+
 
   getFilms(): Observable<any> {
     return this.http.get(`${this.apiUrl}/films`);

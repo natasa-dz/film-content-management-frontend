@@ -1,0 +1,17 @@
+<!-- src/app/feed/feed.component.html -->
+<div *ngIf="feed.length > 0; else noFeed">
+  <h2>Feed ranked based on your preferences</h2>
+  <ul>
+    <li *ngFor="let film of feed">
+      <h3>{{ film.title }}</h3>
+      <p><strong>Director:</strong> {{ film.director }}</p>
+      <p><strong>Year:</strong> {{ film.year }}</p>
+      <p><strong>Genre:</strong> {{ film.genre }}</p>
+      <p>{{ film.description }}</p>
+    </li>
+  </ul>
+</div>
+
+<ng-template #noFeed>
+  <p>No films in your feed yet.</p>
+</ng-template>

@@ -3,6 +3,7 @@ import { FilmService } from '../film.service';
 import {Router} from "@angular/router";
 import {AuthService} from "../auth.service";
 import {UserService} from "../user.service";
+import {FeedService} from "../feed.service";
 
 @Component({
   selector: 'app-get-metadata',
@@ -13,7 +14,7 @@ export class GetMetadataComponent implements OnInit {
   films: any[] = [];
   userRole: string | null = null; // Holds the user's role
 
-  constructor(private userService: UserService,private filmService: FilmService, private router:Router, private authService: AuthService) {}
+  constructor(private userService: UserService,private filmService: FilmService, private router:Router, private authService: AuthService, private feedService:FeedService) {}
 
   ngOnInit(): void {
     this.loadFilms();
@@ -51,16 +52,30 @@ export class GetMetadataComponent implements OnInit {
         const downloadUrl = window.URL.createObjectURL(fileBlob);
         const a = document.createElement('a');
         a.href = downloadUrl;
-        a.download = `${filmId}.mp4`; // Adjust the file extension as needed
+        a.download = `${filmId}.mp4`; // TODO:Adjust the file extension as needed
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
+
+        this.generateFeed()
       },
       error => {
         console.error('Error fetching film:', error);
         alert('Error fetching film');
       }
     );
+  }
+
+
+  private generateFeed(){
+    //added feed generation after significant changes that could impact the ranking
+    this.feedService.generateFeed(this.userService.getUsername()!).subscribe(feed=>
+      {
+        console.log("Feed generated successfully!")
+      }, error => {
+        console.error('Error generating feed:', error);
+      }
+    )
   }
 
   private base64ToBlob(base64: string, contentType: string): Blob {
