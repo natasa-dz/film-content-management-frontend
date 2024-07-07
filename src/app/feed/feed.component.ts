@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import {FeedService} from "../feed.service";
 import {UserService} from "../user.service";
+import {CommonModule} from "@angular/common";
 
 @Component({
   selector: 'app-feed',
   standalone: true,
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './feed.component.html',
   styleUrl: './feed.component.css'
 })
@@ -20,6 +21,7 @@ export class FeedComponent {
   fetchFeed(): void {
     this.feedService.getFeed(this.userService.getUsername()!).subscribe(
       data => {
+        console.log(data)
         this.feed = data;
       },
       error => {

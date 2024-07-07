@@ -1,13 +1,13 @@
-<!-- src/app/feed/feed.component.html -->
-<div *ngIf="feed.length > 0; else noFeed">
-  <h2>Feed ranked based on your preferences</h2>
-  <ul>
-    <li *ngFor="let film of feed">
+<div class="feed-container" *ngIf="feed.length > 0; else noFeed">
+  <h2>Feed Ranked Based on Your Preferences</h2>
+  <ul class="feed-list">
+    <li class="feed-item" *ngFor="let film of feed">
       <h3>{{ film.title }}</h3>
+      <p><strong>Score:</strong> {{ film.score }}</p>
       <p><strong>Director:</strong> {{ film.director }}</p>
       <p><strong>Year:</strong> {{ film.year }}</p>
       <p><strong>Genre:</strong> {{ film.genre }}</p>
-      <p>{{ film.description }}</p>
+      <p><strong>Description:</strong> {{ film.description }}</p>
     </li>
   </ul>
 </div>

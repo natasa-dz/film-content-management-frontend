@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {environment} from "../../environment";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpParams} from "@angular/common/http";
 import {Observable} from "rxjs";
 
 @Injectable({
@@ -20,8 +20,7 @@ export class FeedService {
   }
 
   generateFeed(username: string): Observable<any> {
-    return this.http.get(`${this.apiUrl}/generate-feed`, {
-      params: { user_id: username }
-    });
+    const params = new HttpParams().set('user_id', username);
+    return this.http.post(`${this.apiUrl}/generate-feed`, {}, { params });
   }
 }

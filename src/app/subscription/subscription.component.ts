@@ -40,12 +40,13 @@ export class SubscriptionComponent {
   }
 
   private generateFeed(){
+    console.log(this.userService.getUsername())
     //added feed generation after significant changes that could impact the ranking
     this.feedService.generateFeed(this.userService.getUsername()!).subscribe(feed=>
       {
         console.log("Feed generated successfully!")
       }, error => {
-        console.error('Error generating feed:', error);
+        console.error('Error generating feed:', error.error);
       }
     )
   }
