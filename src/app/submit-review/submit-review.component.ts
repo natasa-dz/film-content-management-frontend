@@ -3,6 +3,7 @@ import {ReviewService} from "../reviews.service";
 import {FormsModule} from "@angular/forms";
 import {ActivatedRoute} from "@angular/router";
 import { CommonModule } from '@angular/common';
+import {FeedService} from "../feed.service";
 
 
 @Component({
@@ -23,7 +24,7 @@ export class SubmitReviewComponent {
   comment: string = '';
   ratingType: string = 'numeric'; // 'numeric', 'like', 'thumbsup'
 
-  constructor(private reviewService: ReviewService, private route:ActivatedRoute) {}
+  constructor(private reviewService: ReviewService, private route:ActivatedRoute, private feedService:FeedService) {}
 
   ngOnInit(): void {
     this.filmId = this.route.snapshot.paramMap.get('film_id');
@@ -40,6 +41,8 @@ export class SubmitReviewComponent {
       .subscribe(
         response => {
           console.log('Review submitted:', response);
+          this.generateFeed();
+
         },
         error => {
           console.error('Failed to submit review:', error);
@@ -48,4 +51,14 @@ export class SubmitReviewComponent {
   }
 
 
+  private generateFeed() {
+    //added feed generation after significant changes that could impact the ranking
+    this.feedService.generateFeed(this.username).subscribe(feed=>
+      {
+        console.log("Feed generated successfully!")
+      }, error => {
+        console.error('Error generating feed:', error);
+      }
+    )
+  }
 }
