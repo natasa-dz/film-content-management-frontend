@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {Observable} from "rxjs";
+import {catchError, map, Observable, of} from "rxjs";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {environment} from "../../environment";
 import {JwtHelperService} from "@auth0/angular-jwt";
@@ -55,11 +55,18 @@ export class AuthService {
   getUserRoleFromToken(): Observable<string> {
     const token = this.getToken();
     if (!token) {
-      throw new Error('No token found');
+      return of(''); // Return an empty observable if no token found
     }
+
     const decodedToken: any = this.jwtHelper.decodeToken(token);
     const username = decodedToken.username;
 
-    return this.getUserRole(username);
+    return this.getUserRole(username).pipe(
+      map((roleResponse: any) => roleResponse.role),
+      catchError(error => {
+        console.error('Error fetching user role:', error);
+        return of(''); // Return an empty observable in case of error
+      })
+    );
   }
 }

@@ -12,15 +12,17 @@ import {Observable} from "rxjs";
 })
 export class GetMetadataComponent implements OnInit {
   films: any[] = [];
-  userRole: Observable<string> | undefined; // Holds the user's role
+  userRole: string | undefined; // Holds the user's role
 
   constructor(private userService: UserService,private filmService: FilmService, private router:Router, private authService: AuthService) {}
 
   ngOnInit(): void {
     this.loadFilms();
-    this.userRole = this.authService.getUserRoleFromToken();
+    this.authService.getUserRoleFromToken().subscribe(role => {
+      this.userRole = role;
+      console.log(this.userRole);
+    });
   }
-
 
   loadFilms(){
     this.filmService.getFilms().subscribe(data => {
@@ -108,15 +110,16 @@ export class GetMetadataComponent implements OnInit {
   }
 
   isAdmin() {
-    // console.log(this.userRole)
-    // // @ts-ignore
-    // return this.userRole == 'admin'
-    return true;
+    console.log(this.userRole);
+    // @ts-ignore
+    return this.userRole == 'Admin'
+    // return true;
   }
 
   isUser() {
-    // // @ts-ignore
-    // return this.userRole == 'user'
-    return true;
+    console.log(this.userRole);
+    // @ts-ignore
+    return this.userRole == 'User'
+    // return true;
   }
 }
