@@ -38,6 +38,7 @@ export class UploadFilmComponent {
         this.filmService.uploadFilm(this.film, fileBase64).subscribe(
           response => {
             alert('Film uploaded successfully!');
+            alert(response)
           },
           error => {
             console.error(error);
