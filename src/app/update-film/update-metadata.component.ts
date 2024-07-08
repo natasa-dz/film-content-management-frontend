@@ -15,8 +15,9 @@ export class UpdateMetadataComponent implements OnInit {
     year: '',
     genre: '',
     description: '',
-    actors: ''
+    actors: [] as string[],
   };
+  actorsString='';
   selectedFile: File | null = null;
   film_id: string | undefined;
 
@@ -47,6 +48,8 @@ export class UpdateMetadataComponent implements OnInit {
       }
 
       // Update film data directly to the backend
+      // @ts-ignore
+      this.film.actors = this.actorsString.split(',').map(actor => actor.trim());
       // @ts-ignore
       this.filmService.uploadFilm(this.film, fileBase64).subscribe(
         response => {
