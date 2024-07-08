@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import {SubscriptionService} from "../subscription.service";
 import {FormsModule} from "@angular/forms";
 import {UserService} from "../user.service";
+import {FeedService} from "../feed.service";
 
 @Component({
   selector: 'app-subscription',
@@ -18,7 +19,7 @@ export class SubscriptionComponent {
     value: ''
   };
 
-  constructor(private subscriptionService: SubscriptionService, private userService:UserService) {}
+  constructor(private subscriptionService: SubscriptionService, private userService:UserService, private feedService:FeedService) {}
 
   onSubscribe() {
     console.log(this.userService.getUsername())
@@ -27,6 +28,8 @@ export class SubscriptionComponent {
       response => {
         console.log('Subscription successful:', response);
         alert('Subscribed successfully');
+        this.generateFeed();
+
       },
       error => {
         console.log(this.subscription)
@@ -34,5 +37,17 @@ export class SubscriptionComponent {
         alert('Error during subscription: ' + error.error.error);
       }
     );
+  }
+
+  private generateFeed(){
+    console.log(this.userService.getUsername())
+    //added feed generation after significant changes that could impact the ranking
+    this.feedService.generateFeed(this.userService.getUsername()!).subscribe(feed=>
+      {
+        console.log("Feed generated successfully!")
+      }, error => {
+        console.error('Error generating feed:', error.error);
+      }
+    )
   }
 }

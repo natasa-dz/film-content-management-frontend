@@ -3,6 +3,8 @@ import { FilmService } from '../film.service';
 import {Router} from "@angular/router";
 import {AuthService} from "../auth.service";
 import {UserService} from "../user.service";
+import {Observable} from "rxjs";
+import {FeedService} from "../feed.service";
 
 @Component({
   selector: 'app-get-metadata',
@@ -11,14 +13,17 @@ import {UserService} from "../user.service";
 })
 export class GetMetadataComponent implements OnInit {
   films: any[] = [];
-  userRole: string | null = null; // Holds the user's role
+  userRole: string | undefined; // Holds the user's role
 
-  constructor(private userService: UserService,private filmService: FilmService, private router:Router, private authService: AuthService) {}
+  constructor(private userService: UserService,private filmService: FilmService, private router:Router, private authService: AuthService, private feedService:FeedService) {}
 
   ngOnInit(): void {
     this.loadFilms();
+    this.authService.getUserRoleFromToken().subscribe(role => {
+      this.userRole = role;
+      console.log(this.userRole);
+    });
   }
-
 
   loadFilms(){
     this.filmService.getFilms().subscribe(data => {
@@ -51,16 +56,30 @@ export class GetMetadataComponent implements OnInit {
         const downloadUrl = window.URL.createObjectURL(fileBlob);
         const a = document.createElement('a');
         a.href = downloadUrl;
-        a.download = `${filmId}.mp4`; // Adjust the file extension as needed
+        a.download = `${filmId}.mp4`; // TODO:Adjust the file extension as needed
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
+
+        this.generateFeed()
       },
       error => {
         console.error('Error fetching film:', error);
         alert('Error fetching film');
       }
     );
+  }
+
+
+  private generateFeed(){
+    //added feed generation after significant changes that could impact the ranking
+    this.feedService.generateFeed(this.userService.getUsername()!).subscribe(feed=>
+      {
+        console.log("Feed generated successfully!")
+      }, error => {
+        console.error('Error generating feed:', error);
+      }
+    )
   }
 
   private base64ToBlob(base64: string, contentType: string): Blob {
@@ -96,6 +115,7 @@ export class GetMetadataComponent implements OnInit {
 
   onUpdate(film_id: any) {
     console.log("Usao u update")
+    console.log("ID filma", film_id)
     this.router.navigate(['/update', film_id]);
   }
 
@@ -105,7 +125,17 @@ export class GetMetadataComponent implements OnInit {
     this.router.navigate(['/submit-review', film_id], { queryParams: { username } });
   }
 
-  isAdmin(): boolean {
-    return this.userRole === 'admin';
+  isAdmin() {
+    console.log(this.userRole);
+    // @ts-ignore
+    return this.userRole == 'Admin'
+    // return true;
+  }
+
+  isUser() {
+    console.log(this.userRole);
+    // @ts-ignore
+    return this.userRole == 'User'
+    // return true;
   }
 }

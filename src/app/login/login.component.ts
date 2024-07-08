@@ -24,9 +24,9 @@ export class LoginComponent {
   onSubmit() {
     this.authService.login(this.user).subscribe(
       response => {
-        console.log("User", this.user)
         console.log('Login successful:', response);
-        this.userService.setUsername(this.user.username); // Set username globally
+        this.authService.saveToken(response.AuthenticationResult.AccessToken); // Čuvanje JWT tokena
+        this.userService.setUsername(this.user.username); // Postavljanje korisničkog imena globalno
         this.getUserRoleAndRedirect(this.user.username);
       },
       error => {

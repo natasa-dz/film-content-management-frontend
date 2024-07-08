@@ -20,11 +20,12 @@ export class UploadFilmComponent {
     description: '',
     actors: [] as string[],
   };
-  actorsString=''  // Temporary string to hold actors input
+  actorsString = ''  // Temporary string to hold actors input
 
   selectedFile: File | null = null;
 
-  constructor(private filmService: FilmService) {}
+  constructor(private filmService: FilmService) {
+  }
 
   onFileSelected(event: any) {
     this.selectedFile = event.target.files[0];
@@ -39,19 +40,16 @@ export class UploadFilmComponent {
 
         this.film.actors = this.actorsString.split(',').map(actor => actor.trim());
 
-        // Upload the film
-        let uploadResponse;
-        try {
-          uploadResponse = await this.filmService.uploadFilm(this.film, fileBase64).toPromise();
-          alert('Film uploaded successfully!');
-          console.log("Film upload response: ", uploadResponse);
-        } catch (uploadError) {
-          console.error("Upload error:", uploadError);
-          alert('Error during film upload.');
-          return;
-        }
-
-
+        this.filmService.uploadFilm(this.film, fileBase64).subscribe(
+          response => {
+            alert('Film uploaded successfully!');
+            alert(response)
+          },
+          error => {
+            console.error(error);
+            alert('Error uploading film.');
+          }
+        );
       } catch (error) {
         console.error("Processing error:", error);
         alert('Error processing file.');
@@ -75,4 +73,25 @@ export class UploadFilmComponent {
       reader.onerror = error => reject(error);
     });
   }
+
+  private transcodeFilm(filmId: string, fileName: string) {
+    const resolutions = ['720p', '1080p', '360p'];  // Define your desired resolutions
+
+    const event = {
+      film_id:this.film.film_id,
+      resolutions: resolutions
+    };
+
+    console.log("EVENT KOJI SE SALJE: ", event)
+
+    this.filmService.transcodeFilm(event).subscribe(
+      response => {
+        console.log('Transcoding process initiated.');
+      },
+      error => {
+        console.error('Error initiating transcoding process.');
+      }
+    );
+  }
+
 }
