@@ -39,9 +39,7 @@ export class UploadFilmComponent {
         this.filmService.uploadFilm(this.film, fileBase64).subscribe(
           response => {
             alert('Film uploaded successfully!');
-
-            // TODO:Call the transcoding function after successful upload
-            //this.transcodeFilm(this.film.film_id, fileBase64);
+            alert(response)
           },
           error => {
             console.error(error);

@@ -3,6 +3,7 @@ import { FilmService } from '../film.service';
 import {Router} from "@angular/router";
 import {AuthService} from "../auth.service";
 import {UserService} from "../user.service";
+import {Observable} from "rxjs";
 import {FeedService} from "../feed.service";
 
 @Component({
@@ -12,14 +13,17 @@ import {FeedService} from "../feed.service";
 })
 export class GetMetadataComponent implements OnInit {
   films: any[] = [];
-  userRole: string | null = null; // Holds the user's role
+  userRole: string | undefined; // Holds the user's role
 
   constructor(private userService: UserService,private filmService: FilmService, private router:Router, private authService: AuthService, private feedService:FeedService) {}
 
   ngOnInit(): void {
     this.loadFilms();
+    this.authService.getUserRoleFromToken().subscribe(role => {
+      this.userRole = role;
+      console.log(this.userRole);
+    });
   }
-
 
   loadFilms(){
     this.filmService.getFilms().subscribe(data => {
@@ -111,6 +115,7 @@ export class GetMetadataComponent implements OnInit {
 
   onUpdate(film_id: any) {
     console.log("Usao u update")
+    console.log("ID filma", film_id)
     this.router.navigate(['/update', film_id]);
   }
 
@@ -120,7 +125,17 @@ export class GetMetadataComponent implements OnInit {
     this.router.navigate(['/submit-review', film_id], { queryParams: { username } });
   }
 
-  isAdmin(): boolean {
-    return this.userRole === 'admin';
+  isAdmin() {
+    console.log(this.userRole);
+    // @ts-ignore
+    return this.userRole == 'Admin'
+    // return true;
+  }
+
+  isUser() {
+    console.log(this.userRole);
+    // @ts-ignore
+    return this.userRole == 'User'
+    // return true;
   }
 }

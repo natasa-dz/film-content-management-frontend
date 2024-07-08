@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import {environment} from "../../environment";
+import { environment } from "../../environment";
 import { MatSnackBar } from '@angular/material/snack-bar';
-
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,26 +11,50 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class SubscriptionService {
   private apiUrl = environment.apiUrl;
 
-  constructor(private http: HttpClient, private snackBar: MatSnackBar) { }
+  constructor(private http: HttpClient, private snackBar: MatSnackBar, private authService: AuthService) { }
 
-  subscribe(userId: string, subscriptionType: string, subscriptionValue: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/subscriptions`, {
-      user_id: userId,
-      subscription_type: subscriptionType,
-      subscription_value: subscriptionValue
+  private getHeaders(): HttpHeaders {
+    const token = this.authService.getToken();
+    if (!token) {
+      throw new Error('No token found');
+    }
+
+    return new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
     });
   }
-  unsubscribe(userId: string, subscriptionType: string, subscriptionValue: string): Observable<any> {
+
+  subscribe(userId: string, subscriptionType: string, subscriptionValue: string): Observable<any> {
+    const headers = this.getHeaders();
     const body = {
       user_id: userId,
       subscription_type: subscriptionType,
       subscription_value: subscriptionValue
     };
-    return this.http.delete(`${this.apiUrl}/subscriptions`, { body });
+
+    return this.http.post(`${this.apiUrl}/subscriptions`, body, { headers });
+  }
+
+  unsubscribe(userId: string, subscriptionType: string, subscriptionValue: string): Observable<any> {
+    const headers = this.getHeaders();
+    const options = {
+      headers,
+      body: {
+        user_id: userId,
+        subscription_type: subscriptionType,
+        subscription_value: subscriptionValue
+      }
+    };
+
+    return this.http.delete(`${this.apiUrl}/subscriptions`, options);
   }
 
   getSubscriptions(userId: string): Observable<any> {
+    const headers = this.getHeaders();
+
     return this.http.get(`${this.apiUrl}/subscriptions`, {
+      headers,
       params: { user_id: userId }
     });
   }

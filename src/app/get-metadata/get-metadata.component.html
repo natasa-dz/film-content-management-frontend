@@ -15,11 +15,12 @@
     <option value="720p">720p</option>
     <option value="1080p">1080p</option>
   </select>
+  
+  <button *ngIf="isAdmin()" (click)="onDelete(film.film_id)">Delete</button>
+  <button *ngIf="isAdmin()" (click)="onUpdate(film.film_id)">Update</button>
+  <button *ngIf="isUser()" (click)="onDownload(film.film_id, resolution.value)">Download</button>
+  <button *ngIf="isUser()" (click)="onReviewSubmit(film.film_id)">Submit a review</button>
 
-  <button (click)="onDelete(film.film_id)">Delete</button>
-  <button (click)="onUpdate(film.film_id)">Update</button>
-  <button (click)="onDownload(film.film_id, resolution.value)">Download</button>
-  <button (click)="onReviewSubmit(film.film_id)">Submit a review</button>
 
 
 </div>

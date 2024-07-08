@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
-import {from, Observable} from 'rxjs';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
-import {environment} from "../../environment";
+import { environment } from "../../environment";
+import { AuthService } from "./auth.service";
 
 @Injectable({
   providedIn: 'root'
@@ -10,39 +11,53 @@ import {environment} from "../../environment";
 export class FilmService {
   private apiUrl = environment.apiUrl;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private authService: AuthService) {}
 
-  }
-//, base64File: string
-  uploadFilm(film: any, base64File:string): Observable<any> {
+  uploadFilm(film: any, base64File: string) {
+    const token = this.authService.getToken();
+    if (!token) {
+      throw new Error('No token found');
+    }
 
     const body = {
       film_id: film.film_id,
       title: film.title,
       director: film.director,
-      actors:film.actors,
+      actors: film.actors,
       year: film.year,
       genre: film.genre,
       description: film.description,
       file: base64File
     };
 
-    console.log("Form data being sent:", body);  // Log form data for debugging
+    console.log("Form data being sent:", body);
 
-    return this.http.post(`${this.apiUrl}/films`, body, {
-      headers: {
-        'Content-Type': 'application/json'
-      }
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
     });
+
+    return this.http.post(`${this.apiUrl}/films`, body, { headers });
   }
 
   getMetadata(filmId?: string): Observable<any> {
+    const token = this.authService.getToken();
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+
     const url = filmId ? `${this.apiUrl}/films/${filmId}` : `${this.apiUrl}/films`;
-    return this.http.get(url);
+    return this.http.get(url, { headers });
   }
 
   downloadFilm(filmId: string, userId: string): Observable<any> {
+    const token = this.authService.getToken();
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+
     return this.http.get<any>(`${this.apiUrl}/download`, {
+      headers,
       params: {
         film_id: filmId,
         user_id: userId
@@ -61,21 +76,39 @@ export class FilmService {
 
 
   getFilms(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/films`);
+    const token = this.authService.getToken();
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+
+    return this.http.get(`${this.apiUrl}/films`, { headers });
   }
 
   getFilmById(film_id: string): Observable<any> {
-    return this.http.get(`${this.apiUrl}/films?film_id=${film_id}`);
+    console.log("pozove se");
+    const token = this.authService.getToken();
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+
+    return this.http.get(`${this.apiUrl}/films?film_id=${film_id}`, { headers });
   }
 
-  // delete option
   deleteFilmById(filmId: string): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/films/${filmId}`);
+    const token = this.authService.getToken();
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+
+    return this.http.delete(`${this.apiUrl}/films/${filmId}`, { headers });
   }
 
-  // TODO: TEST search option
   searchFilms(criteria: any): Observable<any> {
-    console.log("Search criteria: ", criteria)
+    const token = this.authService.getToken();
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+
     let params = new HttpParams();
     if (criteria.title) {
       params = params.set('title', criteria.title);
@@ -92,11 +125,16 @@ export class FilmService {
     if (criteria.genre) {
       params = params.set('genre', criteria.genre);
     }
-    return this.http.get<any[]>(`${this.apiUrl}/search`, { params });
 
-}
+    return this.http.get<any[]>(`${this.apiUrl}/search`, { headers, params });
+  }
 
   updateFilm(film: any, base64File?: string): Observable<any> {
+    const token = this.authService.getToken();
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    });
 
     const body = {
       film_id: film.film_id,
@@ -105,16 +143,11 @@ export class FilmService {
       year: film.year,
       genre: film.genre,
       description: film.description,
-      ...(base64File && { file: base64File }) // Only include file if provided
+      ...(base64File && { file: base64File })
     };
 
-    console.log("Request body: ", body)
+    console.log("Request body: ", body);
 
-    return this.http.put(`${this.apiUrl}/films/${film.film_id}`, body, {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
+    return this.http.put(`${this.apiUrl}/films/${film.film_id}`, body, { headers });
   }
-
 }

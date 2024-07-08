@@ -19,6 +19,7 @@ import {AdminNavComponent} from "./admin-nav/admin-nav.component";
 import {SubscriptionComponent} from "./subscription/subscription.component";
 import {ManageSubscriptionsComponent} from "./manage-subscriptions/manage-subscriptions.component";
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import {JwtHelperService, JwtModule} from "@auth0/angular-jwt";
 import {FeedComponent} from "./feed/feed.component";
 
 const routes: Routes = [
@@ -61,7 +62,14 @@ const routes: Routes = [
     RouterOutlet,
     RouterModule.forRoot(routes),
     UserNavComponent,
-    AdminNavComponent
+    AdminNavComponent,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: () => {
+          return localStorage.getItem('JWT_TOKEN'); // Funkcija koja vraća JWT token iz localStorage-a
+        }
+      }
+    })
   ],
   providers: [
     provideAnimationsAsync()

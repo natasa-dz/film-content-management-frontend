@@ -15,8 +15,9 @@ export class UpdateMetadataComponent implements OnInit {
     year: '',
     genre: '',
     description: '',
-    actors: ''
+    actors: [] as string[],
   };
+  actorsString='';
   selectedFile: File | null = null;
   film_id: string | undefined;
 
@@ -29,6 +30,7 @@ export class UpdateMetadataComponent implements OnInit {
   ngOnInit(): void {
     // Get the film_id from the route parameters and load the film data
       this.film_id = this.route.snapshot.params['film_id'];
+      console.log("FILM ID U UPDATEU", this.film_id);
       if (this.film_id) {
         this.loadFilmData(this.film_id);
       }
@@ -46,6 +48,8 @@ export class UpdateMetadataComponent implements OnInit {
       }
 
       // Update film data directly to the backend
+      // @ts-ignore
+      this.film.actors = this.actorsString.split(',').map(actor => actor.trim());
       // @ts-ignore
       this.filmService.uploadFilm(this.film, fileBase64).subscribe(
         response => {
@@ -67,6 +71,7 @@ export class UpdateMetadataComponent implements OnInit {
     this.filmService.getFilmById(filmId).subscribe(
       response => {
         this.film = response;
+        console.log(this.film);
       },
       error => {
         console.error(error);
