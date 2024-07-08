@@ -29,12 +29,14 @@ export class FilmService {
 
     console.log("Form data being sent:", body);  // Log form data for debugging
 
-    return this.http.post(`${this.apiUrl}/films`, body, {
+    return this.http.post<{message: string, executionArn: string }>(`${this.apiUrl}/films`, body, {
       headers: {
         'Content-Type': 'application/json'
       }
     });
   }
+
+
 
   getMetadata(filmId?: string): Observable<any> {
     const url = filmId ? `${this.apiUrl}/films/${filmId}` : `${this.apiUrl}/films`;
