@@ -1,7 +1,7 @@
-import {ChangeDetectorRef, Component} from '@angular/core';
-import {FilmService} from "../film.service";
-import {FormsModule} from "@angular/forms";
-import {CommonModule} from "@angular/common";
+import { ChangeDetectorRef, Component } from '@angular/core';
+import { FilmService } from '../film.service';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-search',
@@ -29,14 +29,25 @@ export class SearchComponent {
     this.filmService.searchFilms(this.searchCriteria).subscribe(
       response => {
         this.searchResults = response;
-        console.log(this.searchResults)
+        console.log(this.searchResults);
+        this.resetSearchCriteria(); // Reset search criteria after successful search
         this.cdr.detectChanges(); // Manually trigger change detection
-
       },
       error => {
         console.error(error);
         alert('Error searching for films.');
+        this.resetSearchCriteria(); // Reset search criteria after error
       }
     );
+  }
+
+  resetSearchCriteria() {
+    this.searchCriteria = {
+      title: '',
+      description: '',
+      actors: '',
+      director: '',
+      genre: ''
+    };
   }
 }
