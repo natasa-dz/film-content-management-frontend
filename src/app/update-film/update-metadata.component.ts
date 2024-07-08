@@ -29,6 +29,7 @@ export class UpdateMetadataComponent implements OnInit {
   ngOnInit(): void {
     // Get the film_id from the route parameters and load the film data
       this.film_id = this.route.snapshot.params['film_id'];
+      console.log("FILM ID U UPDATEU", this.film_id);
       if (this.film_id) {
         this.loadFilmData(this.film_id);
       }
@@ -67,6 +68,7 @@ export class UpdateMetadataComponent implements OnInit {
     this.filmService.getFilmById(filmId).subscribe(
       response => {
         this.film = response;
+        console.log(this.film);
       },
       error => {
         console.error(error);

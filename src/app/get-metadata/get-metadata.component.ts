@@ -100,6 +100,7 @@ export class GetMetadataComponent implements OnInit {
 
   onUpdate(film_id: any) {
     console.log("Usao u update")
+    console.log("ID filma", film_id)
     this.router.navigate(['/update', film_id]);
   }
 

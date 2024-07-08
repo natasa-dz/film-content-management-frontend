@@ -75,6 +75,7 @@ export class FilmService {
   }
 
   getFilmById(film_id: string): Observable<any> {
+    console.log("pozove se");
     const token = this.authService.getToken();
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
