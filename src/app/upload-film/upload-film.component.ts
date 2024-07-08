@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { FilmService } from '../film.service';
 import { v4 as uuidv4 } from 'uuid';
+import {catchError, concatMap, delay, filter, finalize, map, switchMap, take, takeWhile, tap} from 'rxjs/operators';
+import {Observable, of, timer} from 'rxjs';
+
 
 @Component({
   selector: 'app-upload-film',
@@ -36,6 +39,7 @@ export class UploadFilmComponent {
         const fileBase64 = await this.convertFileToBase64(this.selectedFile);
 
         this.film.actors = this.actorsString.split(',').map(actor => actor.trim());
+
         this.filmService.uploadFilm(this.film, fileBase64).subscribe(
           response => {
             alert('Film uploaded successfully!');
@@ -47,7 +51,7 @@ export class UploadFilmComponent {
           }
         );
       } catch (error) {
-        console.error(error);
+        console.error("Processing error:", error);
         alert('Error processing file.');
       }
     } else {
@@ -55,9 +59,11 @@ export class UploadFilmComponent {
     }
   }
 
+
   private generateFilmId(): string {
     return uuidv4();  // Generate a unique UUID
   }
+
 
   private convertFileToBase64(file: File): Promise<string> {
     return new Promise((resolve, reject) => {

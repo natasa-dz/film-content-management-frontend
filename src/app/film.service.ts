@@ -32,6 +32,7 @@ export class FilmService {
 
     console.log("Form data being sent:", body);
 
+
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${token}`
@@ -39,6 +40,8 @@ export class FilmService {
 
     return this.http.post(`${this.apiUrl}/films`, body, { headers });
   }
+
+
 
   getMetadata(filmId?: string): Observable<any> {
     const token = this.authService.getToken();
