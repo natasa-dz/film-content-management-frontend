@@ -67,6 +67,16 @@ export class FilmService {
     });
   }
 
+  transcodeFilm(event: {film_id:string, resolutions: string[] }) {
+    return this.http.post(`${this.apiUrl}/films/transcode`, event, {
+      headers: {
+        'Content-Type': 'application/json'
+      }});
+  }
+
+
+
+
   getFilms(): Observable<any> {
     const token = this.authService.getToken();
     const headers = new HttpHeaders({
