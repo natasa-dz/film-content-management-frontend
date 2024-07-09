@@ -35,21 +35,21 @@ export class GetMetadataComponent implements OnInit {
 
     let fileKey: string;
 
-    switch (resolution) {
-      case '360p':
-        fileKey = `${filmId}_360p.mp4`;
-        break;
-      case '720p':
-        fileKey = `${filmId}_720p.mp4`;
-        break;
-      case '1080p':
-        fileKey = `${filmId}_1080p.mp4`;
-        break;
-      default:
-        fileKey = `${filmId}.mp4`;
-    }
+    // switch (resolution) {
+    //   case '360p':
+    //     fileKey = `${filmId}_360p.mp4`;
+    //     break;
+    //   case '720p':
+    //     fileKey = `${filmId}_720p.mp4`;
+    //     break;
+    //   case '480p':
+    //     fileKey = `${filmId}_480p.mp4`;
+    //     break;
+    //   default:
+    //     fileKey = `${filmId}`;
+    // }
 
-    this.filmService.downloadFilm(fileKey, this.userService.getUsername()!).subscribe(
+    this.filmService.downloadFilm(filmId, this.userService.getUsername()!, resolution).subscribe(
       data => {
         const fileBase64 = data.file;
         const fileBlob = this.base64ToBlob(fileBase64, 'application/octet-stream');
