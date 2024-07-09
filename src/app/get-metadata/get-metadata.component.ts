@@ -25,6 +25,38 @@ export class GetMetadataComponent implements OnInit {
     });
   }
 
+  onWatch(filmId: string): void { // Assuming default resolution
+    console.log(filmId);
+    this.filmService.downloadFilm(filmId, this.userService.getUsername()!,"original").subscribe(
+      data => {
+        const fileBase64 = data.file;
+
+        // Convert base64 to Blob
+        const fileBlob = this.base64ToBlob(fileBase64, 'video/mp4');
+        const videoUrl = URL.createObjectURL(fileBlob);
+
+        // Create video element
+        const videoElement = document.createElement('video');
+        videoElement.src = videoUrl;
+        videoElement.controls = true;
+        videoElement.style.width = '100%';
+
+        // Replace previous video in video-container
+        const videoContainer = document.getElementById('video-container');
+        if (videoContainer) {
+          videoContainer.innerHTML = ''; // Clear previous video if any
+          videoContainer.appendChild(videoElement);
+        }
+
+      },
+      error => {
+        console.error('Error fetching film:', error);
+        alert('Error fetching film');
+      }
+    );
+  }
+
+
   loadFilms(){
     this.filmService.getFilms().subscribe(data => {
       this.films = data;
@@ -69,6 +101,8 @@ export class GetMetadataComponent implements OnInit {
       }
     );
   }
+
+
 
 
   private generateFeed(){

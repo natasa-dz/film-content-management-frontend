@@ -1,6 +1,9 @@
 <!-- src/app/get-metadata/get-metadata.component.html -->
 
 <!-- src/app/components/film-list/film-list.component.html -->
+
+<div id="video-container">
+</div>
 <div *ngFor="let film of films" class="film-item">
   <h2>{{ film.title }}</h2>
   <p>Director: {{ film.director }}</p>
@@ -13,15 +16,14 @@
     <option value="original">Original</option>
     <option value="360p">360p</option>
     <option value="720p">720p</option>
-    <option value="480p">480p</option>
+    <option value="1080p">1080p</option>
   </select>
 
   <button *ngIf="isAdmin()" (click)="onDelete(film.film_id)">Delete</button>
   <button *ngIf="isAdmin()" (click)="onUpdate(film.film_id)">Update</button>
   <button *ngIf="isUser()" (click)="onDownload(film.film_id, resolution.value)">Download</button>
   <button *ngIf="isUser()" (click)="onReviewSubmit(film.film_id)">Submit a review</button>
-
+  <button (click)="onWatch(film.film_id)">Watch</button>
 
 
 </div>
-

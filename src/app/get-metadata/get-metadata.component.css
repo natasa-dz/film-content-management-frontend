@@ -1,0 +1,26 @@
+/* Video container styling /
+
+
+/ Style for video element */
+#video-container video {
+  max-width: 100%;
+  border-radius: 10px;
+}
+.container {
+  margin: 20px auto;
+  max-width: 800px;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#video-container {
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #000;
+  padding: 10px;
+  border-radius: 10px;
+}
