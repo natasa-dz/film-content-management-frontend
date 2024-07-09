@@ -50,17 +50,19 @@ export class FilmService {
     return this.http.get(url, { headers });
   }
 
-  downloadFilm(filmId: string, userId: string): Observable<any> {
+  downloadFilm(filmId: string, userId: string, resolution: string): Observable<any> {
     const token = this.authService.getToken();
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
+    console.log(token);
 
     return this.http.get<any>(`${this.apiUrl}/download`, {
       headers,
       params: {
         film_id: filmId,
-        user_id: userId
+        user_id: userId,
+        resolution: resolution
       }
     });
   }
